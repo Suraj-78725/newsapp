@@ -37,14 +37,15 @@ export class News extends Component {
   };
   async upadte()
   {
-    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6f9ec1f650fb45218f9585a4b03781b5&page=1&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(10)
+    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=1&pageSize=${this.props.pageSize}`;
     this.setState({loading:true}) ;
     let data = await fetch(url);
+    this.props.setProgress(30)
     let parseData= await data.json();
     console.log(parseData);
     this.setState({articles:parseData.articles,totalResults: parseData.totalResults,loading:false});
-
-
+    this.props.setProgress(100)
   }
   async componentDidMount()
   {
@@ -64,7 +65,7 @@ export class News extends Component {
   //   this.setState({page:this.state.page-1});
   // }
   fetchMoreData = async() => {
-    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6f9ec1f650fb45218f9585a4b03781b5&page=1&pageSize=${this.props.pageSize}`;
+    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=1&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parseData= await data.json();
     console.log(parseData);
@@ -74,14 +75,14 @@ export class News extends Component {
     let {header}=this.props;
     return (
       <>
-        <h1 className="text-center">{header}-top headdlines </h1>
+        <h2 className="text-center">{header}-top headdlines </h2>
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={this.state.articles.length!== this.state.totalResults}
           loader={<Spinner/>}
         >
-          <div className="container">
+        <div className="container">
         <div className="row">
           { this.state.articles.map((element)=>{
             console.log(element)

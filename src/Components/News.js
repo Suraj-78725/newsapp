@@ -17,7 +17,6 @@ const News =(props)=> {
     let data = await fetch(url);
     props.setProgress(30)
     let parseData= await data.json();
-    console.log(parseData);
     setArticles(parseData.articles);
     settotalresult(parseData.totalResults);
     setloading(false);
@@ -36,7 +35,7 @@ const News =(props)=> {
     let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pageSize=${props.pageSize}`;
     let data = await fetch(url);
     let parseData= await data.json();
-    console.log(parseData);
+    // console.log(parseData);
     setArticles(articles.concat(parseData.articles));
     settotalresult(parseData.totalResults);
     setPage(page+1);
@@ -46,7 +45,7 @@ const News =(props)=> {
     let {header}=props;
     return (
       <>
-        <h2 className="text-center" style={{marginTop:'5rem'}}>{header}-top headdlines </h2>
+        <h2 className="text-center" style={{marginTop:'5rem'}}>{header}-top headlines </h2>
         <InfiniteScroll
           dataLength={articles.length}
           next={fetchMoreData}
@@ -56,7 +55,7 @@ const News =(props)=> {
         <div className="container">
         <div className="row">
           { articles.map((element)=>{
-            console.log(element)
+            // console.log(element)
             return <div className="col md-4" key={element.ImageUrl}>
             <NewsItem title={element.title?element.title:""} description={element.description?element.description:""} ImageUrl={element.urlToImage} NewsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name}/>
             </div>
@@ -73,9 +72,6 @@ const News =(props)=> {
       </>
     )
   }
-
-
-
 
 News.defaultProps = {
   country:'in',
